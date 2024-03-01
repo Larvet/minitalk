@@ -6,7 +6,7 @@
 /*   By: locharve <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:12:49 by locharve          #+#    #+#             */
-/*   Updated: 2024/03/01 17:00:46 by locharve         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:16:47 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	handle_sigusr(int sig, siginfo_t *info, void *ucontext)
 		//kill(pid, SIGUSR2); // end char
 		//usleep(100);
 	}
-	usleep(100);
+	//usleep(100);
 	return ;
 }
 
@@ -73,11 +73,7 @@ int	main(void)
 	ft_putchar_fd('\n', 1);
 
 	while (1)
-	{	
-		//sigaction(SIGUSR1, &sa1, NULL);
-		//sigaction(SIGUSR2, &sa2, NULL);
 		pause();
-	}
 
 	return (0);
 }

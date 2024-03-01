@@ -6,7 +6,7 @@
 /*   By: locharve <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:18:34 by locharve          #+#    #+#             */
-/*   Updated: 2024/03/01 17:02:26 by locharve         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:40:32 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static void	send_char(int pid, unsigned char c)
 		{
 			kill(pid, SIGUSR2);
 		}
-		usleep(200);
+		usleep(1000);
 		pow--;
 	}
-	//usleep(100);
+	usleep(1000);
 	return ;
 }
 
