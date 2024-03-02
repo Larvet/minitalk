@@ -18,6 +18,28 @@ typedef struct s_buff
 	struct s_byte	*nxt;
 }	t_buff;
 
+static void	answer_client(int pid, int *pow, unsigned char *byte)
+{
+	int	sig;
+
+	sig = SIGUSR2;
+	if (*pow < 0)
+	{
+		*pow = 7;
+		if (*byte)
+			ft_putchar_fd(*byte, 1);
+		else
+		{
+			ft_putchar_fd('\n', 1);
+			sig = SIGUSR1;
+		}
+		*byte = 0;
+	}
+	usleep(100);
+	kill(pid, sig);
+	return ;
+}
+
 static void	handle_sigusr(int sig, siginfo_t *info, void *ucontext)
 {
 	static unsigned char	byte = 0;
@@ -32,48 +54,25 @@ static void	handle_sigusr(int sig, siginfo_t *info, void *ucontext)
 	else
 		byte += 0 << pow;
 	pow--;
-	if (pow < 0)
-	{
-		ft_putchar_fd(byte, 1);
-		if (!byte)
-		{
-			kill(pid, SIGUSR1); // end string
-			ft_putchar_fd('\n', 1);
-		}
-
-		byte = 0;
-		pow = 7;
-		//kill(pid, SIGUSR2); // end char
-		//usleep(100);
-	}
-	//usleep(100);
+	answer_client(pid, &pow, &byte);
 	return ;
 }
 
 int	main(void)
 {
 	struct sigaction	sa1;
-	struct sigaction	sa2;
 	int					pid;
 
 	ft_memset(&sa1, 0, sizeof(sa1));
 	sa1.sa_sigaction = &handle_sigusr;
 	sa1.sa_flags = SA_SIGINFO;
-
-	ft_memset(&sa2, 0, sizeof(sa2));
-	sa2.sa_sigaction = &handle_sigusr;
-	sa2.sa_flags = SA_SIGINFO;
-
 	sigaction(SIGUSR1, &sa1, NULL);
-	sigaction(SIGUSR2, &sa2, NULL);
-
+	sigaction(SIGUSR2, &sa1, NULL);
 	pid = getpid();
 	ft_putstr_fd("Server PID : ", 1);
 	ft_putnbr_fd(pid, 1);
 	ft_putchar_fd('\n', 1);
-
 	while (1)
 		pause();
-
 	return (0);
 }
