@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: locharve <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/03 15:57:38 by locharve          #+#    #+#             */
+/*   Updated: 2024/03/03 15:57:44 by locharve         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 static void	handle_sig(int sig)
@@ -14,6 +26,7 @@ static void	send_byte(int pid, unsigned char c)
 	pow = 7;
 	while (pow >= 0)
 	{
+		usleep(200);
 		if (c >> pow != 0)
 		{
 			kill(pid, SIGUSR1);
@@ -22,7 +35,6 @@ static void	send_byte(int pid, unsigned char c)
 		else if (c >> pow == 0)
 			kill(pid, SIGUSR2);
 		pause();
-		usleep(100);
 		pow--;
 	}
 	return ;

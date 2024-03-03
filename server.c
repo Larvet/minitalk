@@ -6,7 +6,7 @@
 /*   By: locharve <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:12:49 by locharve          #+#    #+#             */
-/*   Updated: 2024/03/01 17:16:47 by locharve         ###   ########.fr       */
+/*   Updated: 2024/03/03 15:58:20 by locharve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	answer_client(int pid, int *pow, unsigned char *byte)
 		}
 		*byte = 0;
 	}
-	usleep(100);
+	usleep(200);
 	kill(pid, sig);
 	return ;
 }
@@ -44,10 +44,9 @@ static void	handle_sigusr(int sig, siginfo_t *info, void *ucontext)
 {
 	static unsigned char	byte = 0;
 	static int				pow = 7;
-	int						pid;
-	
-	(void) ucontext;
+	int						pid;	
 
+	(void) ucontext;
 	pid = info->si_pid;
 	if (sig == SIGUSR1)
 		byte += 1 << pow;
